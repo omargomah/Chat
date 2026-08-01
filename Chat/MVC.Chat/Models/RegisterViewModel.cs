@@ -15,6 +15,6 @@ namespace MVC.Chat.Models
         [Required,StringLength(30),Compare(nameof(Password),ErrorMessage ="Two Passwords are Not Matched")]
         public string ConfirmPassword { get; set; }
         [Required,Phone]
-        public string Phone { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

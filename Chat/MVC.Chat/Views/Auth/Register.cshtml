@@ -67,28 +67,29 @@
                 margin-bottom: 15px;
             }
 
-            .form-control::placeholder {
-                color: #333333; /* Make placeholder text darker and visible */
-            }
+                .form-control::placeholder {
+                    color: #333333; /* Make placeholder text darker and visible */
+                }
 
             .text-danger {
                 color: #ffcccc !important; /* Lighter validation text on dark background */
             }
 
-            .btn-register {
-                background-color: #00d8ff;
-                color: #000000; /* Black text for contrast */
-                border: none;
-                border-radius: 10px;
-                padding: 10px 15px;
-                width: 100%;
-                margin-top: 10px;
-                transition: background-color 0.3s ease;
-            }
 
-            .btn-register:hover {
-                background-color: #00b0ff; /* Sightly darker blue on hover */
-            }
+        .btn-register {
+            background-color: #00d8ff;
+            color: #000000; /* Black text for contrast */
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background-color: #00b0ff; /* Sightly darker blue on hover */
+        }
     </style>
 </head>
 <body>
@@ -115,26 +116,26 @@
 
                             <div class="mb-3">
                                 <label asp-for="ConfirmPassword" class="form-label"></label>
-                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="ConfirmPass" />
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Pass" />
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
 
                             <div class="mb-3">
                                 <label asp-for="FName" class="form-label"></label>
-                                <input asp-for="FName" class="form-control" placeholder="FName" />
+                                <input asp-for="FName" class="form-control" placeholder="First Name" />
                                 <span asp-validation-for="FName" class="text-danger"></span>
                             </div>
 
                             <div class="mb-3">
                                 <label asp-for="LName" class="form-label"></label>
-                                <input asp-for="LName" class="form-control" placeholder="LName" />
+                                <input asp-for="LName" class="form-control" placeholder="Last Name" />
                                 <span asp-validation-for="LName" class="text-danger"></span>
                             </div>
 
                             <div class="mb-3">
-                                <label asp-for="Phone" class="form-label"></label>
-                                <input asp-for="Phone" class="form-control" placeholder="Phone" />
-                                <span asp-validation-for="Phone" class="text-danger"></span>
+                                <label asp-for="PhoneNumber" class="form-label"></label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Phone" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
 
                             <button type="submit" class="btn btn-register">Register</button>

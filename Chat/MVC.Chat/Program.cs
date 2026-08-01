@@ -36,10 +36,10 @@ namespace MVC.Chat
             {
                 options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(15);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
                 options.Cookie.Name = "Chat.Auth";
-                options.LoginPath = "Auth/Login";
-                options.AccessDeniedPath = "Auth/Denied";
+                options.LoginPath = "/Auth/Login";
+                options.AccessDeniedPath = "/Auth/Denied";
                 options.SlidingExpiration = true;
             });
             var app = builder.Build();
@@ -61,7 +61,7 @@ namespace MVC.Chat
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}")
+                pattern: "{controller=Chat}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

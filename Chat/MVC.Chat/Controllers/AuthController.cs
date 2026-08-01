@@ -1,19 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MVC.Chat.Entities;
+using MVC.Chat.Models;
 
 namespace MVC.Chat.Controllers
 {
     public class AuthController : Controller
     {
-        #region Register
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
+
+        public AuthController(UserManager<User> userManager,SignInManager<User> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            var categories = await _mediator.Send(new GetAllCategoriesForCheckBoxQuery());
-
-            return View(new RegisterViewModel()
-            {
-                AvailableCategories = categories
-            });
+            return View(new RegisterViewModel());
+        }
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View(new LoginViewModel());
         }
 
         [HttpPost]
@@ -23,33 +34,57 @@ namespace MVC.Chat.Controllers
             if (!ModelState.IsValid)
                 return View(registerViewModel);
 
-            string confirmationBaseUrl = Url.Action("ConfirmEmail", "Auth", null, Request.Scheme)!;
+            User user = new User() 
+            {
+                FName = registerViewModel.FName ,
+                LName = registerViewModel.LName,
+                Email = registerViewModel.Email,
+                UserName = registerViewModel.Email,
+                PhoneNumber = registerViewModel.PhoneNumber,
+            };
 
-            var command = new RegisterUserCommand(
-                registerViewModel.FullName,
-                registerViewModel.Email,
-                registerViewModel.Password,
-                registerViewModel.Role, confirmationBaseUrl,
-                registerViewModel.SelectedCategoryIds);
+            IdentityResult identityResult = await _userManager.CreateAsync(user,registerViewModel.Password);
 
-            var result = await _mediator.Send(command);
+            if (identityResult.Succeeded)
+                return RedirectToAction("Login", "Auth");
 
-            if (result.IsSuccess)
-                return RedirectToAction("RegisterConfirmation");
-
-            foreach (var error in result.Errors)
-                ModelState.AddModelError(string.Empty, error);
-
+            foreach (var item in identityResult.Errors)
+                ModelState.AddModelError(string.Empty, item.Description);
+            
             return View(registerViewModel);
         }
 
-        [HttpGet]
-        public IActionResult RegisterConfirmation()
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
         {
-            return View();
+            if(!ModelState.IsValid)
+                return View(loginViewModel);
+            User? user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+            if (user is null)
+            {
+                ModelState.AddModelError(string.Empty, "Email or Password is Invalid");
+                return View(loginViewModel);
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(
+            user.UserName!,
+            loginViewModel.Password,
+            isPersistent: true,
+            lockoutOnFailure: true);
+            if (result.IsLockedOut)
+            { 
+                ModelState.AddModelError(string.Empty, "Email or Password is Invalid");
+                return View(loginViewModel);
+            }
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError(string.Empty, "Email or Password is Invalid");
+                return View(loginViewModel);
+            }
+            return RedirectToAction("Index", "Chat");
         }
 
-        #endregion
 
     }
 }
