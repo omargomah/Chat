@@ -7,9 +7,11 @@ namespace MVC.Chat.Entities
         public string FName { get; set; }
         public string LName { get; set; }
         public string FullName { get;}
-        public ICollection<Conversation> Conversations { get; set; } = new HashSet<Conversation>();
+        public ICollection<Conversation> InitiatedConversations { get; set; } = new List<Conversation>();
+        public ICollection<Conversation> ReceivedConversations { get; set; } = new List<Conversation>();
         public ICollection<UserConnection> UserConnections { get; set; } = new HashSet<UserConnection>();
         public ICollection<UserGroup> UserGroups { get; set; } = new HashSet<UserGroup>();
+        public ICollection<Message> Messages { get; set; } = new HashSet<Message>();
     }
 
 }

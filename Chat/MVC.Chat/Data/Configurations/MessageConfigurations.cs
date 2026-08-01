@@ -12,7 +12,7 @@ namespace MVC.Chat.Data.Configurations
 
             builder.Property(m => m.Content).HasMaxLength(Constants.ContentMaxLength).IsRequired();
             
-            builder.Property(u => u.SentAt).HasDefaultValue("SYSDATETIMEOFFSET()");
+            builder.Property(u => u.SentAt).HasDefaultValueSql("SYSDATETIMEOFFSET()");
 
             builder.Property(u => u.IsRead).HasDefaultValue(false);
             
@@ -20,7 +20,15 @@ namespace MVC.Chat.Data.Configurations
             
             builder.HasOne(m => m.Conversation)
                 .WithMany(c => c.Messages)
-                .HasForeignKey(m => m.Id);
+                .HasForeignKey(m => m.ConversationId);
+            
+            builder.HasOne(m => m.Sender)
+                .WithMany(u => u.Messages)
+                .HasForeignKey(m => m.SenderId);
+            
+            builder.HasOne(m => m.Sender)
+                .WithMany(c => c.Messages)
+                .HasForeignKey(m => m.SenderId);
         }
     }
 }
