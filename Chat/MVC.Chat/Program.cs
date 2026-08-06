@@ -2,6 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC.Chat.Data;
 using MVC.Chat.Entities;
+using MVC.Chat.Hubs;
+using MVC.Chat.Interfaces;
+using MVC.Chat.Repositories;
 
 namespace MVC.Chat
 {
@@ -13,8 +16,12 @@ namespace MVC.Chat
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
-
+            builder.Services.AddSignalR();
+            
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserConnectionRepository, UserConnectionRepository>();
+            builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UniteOfWork>();
             // DataBase
             builder.Services.AddDbContext<ApplicationDbContext>(config => 
             {
@@ -59,6 +66,7 @@ namespace MVC.Chat
             app.UseAuthorization();
 
             app.MapStaticAssets();
+            app.MapHub<ChatHub>("/chatHub");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Chat}/{action=Index}/{id?}")
