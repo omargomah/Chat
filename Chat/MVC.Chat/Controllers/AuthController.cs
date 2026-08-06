@@ -56,7 +56,7 @@ namespace MVC.Chat.Controllers
 
         [HttpPost]
         [AutoValidateAntiforgeryToken]
-        public async Task<IActionResult> Login([FromBody]LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if(!ModelState.IsValid)
                 return View(loginViewModel);
@@ -84,7 +84,17 @@ namespace MVC.Chat.Controllers
             }
             return RedirectToAction("Index", "Chat");
         }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            // 1. Clears ASP.NET Core Identity authentication cookie
+            await _signInManager.SignOutAsync();
 
+            // 2. Redirect back to login page
+            return RedirectToAction("Login", "Auth");
+        }
 
     }
 }

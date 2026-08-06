@@ -10,4 +10,5 @@ namespace MVC.Chat.Models
         [Required, StringLength(30)]
         public string Password { get; set; }
     }
+
 }
