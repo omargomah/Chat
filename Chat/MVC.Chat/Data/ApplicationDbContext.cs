@@ -9,7 +9,7 @@ namespace MVC.Chat.Data
     {
         public DbSet<User> Users => Set<User>();
         public DbSet<Message> Messages => Set<Message>();
-        public DbSet<Conversation> Conversations => Set<Conversation>();
+        //public DbSet<Conversation> Conversations => Set<Conversation>();
         public DbSet<UserConnection> UserConnections => Set<UserConnection>();
         public DbSet<UserGroup> UserGroups => Set<UserGroup>();
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
