@@ -5,7 +5,7 @@ namespace MVC.Chat.Interfaces
 {
     public interface IUserRepository : IBaseRepository
     {
-        Task<List<ChatSidebarUserViewModel>> GetUsersForSideBarAsync(int currentUserId);
+        Task<List<ChatSidebarUserViewModel>> GetUsersForSideBarAsync(int currentUserId,CancellationToken cancellationToken =default);
 
     }
 
