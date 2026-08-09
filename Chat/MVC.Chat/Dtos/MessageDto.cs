@@ -7,6 +7,7 @@
         public int ReceiverId { get; set; }
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
         public bool IsRead { get; set; }
     }
 }
