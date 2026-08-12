@@ -4,6 +4,7 @@
     {
         public int CurrentUserId { get; set; }
         public string CurrentUserName { get; set; }
+        public string? CurrentUserPictureUrl { get; set; }
         public List<ChatSidebarUserViewModel> Users { get; set; } = new();
     }
 }

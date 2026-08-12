@@ -12,7 +12,7 @@ using System.Security.Claims;
 namespace MVC.Chat.Controllers
 {
     [Authorize]
-    public class ChatController :Controller
+    public class ChatController : Controller
     {
         private readonly IUserRepository _userRepository;
         private readonly IMessageRepository _messageRepository;
@@ -32,12 +32,14 @@ namespace MVC.Chat.Controllers
         {
             var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
+            var currentUser = await _userRepository.GetByIdAsync(currentUserId);
             List<ChatSidebarUserViewModel> users = await _userRepository.GetUsersForSideBarAsync(currentUserId);
-            
+
             ChatIndexViewModel model = new ChatIndexViewModel
             {
                 CurrentUserId = currentUserId,
                 CurrentUserName = User.Identity.Name!,
+                CurrentUserPictureUrl = currentUser?.Picture?.Url ?? string.Empty,
                 Users = users
             };
 
@@ -45,13 +47,13 @@ namespace MVC.Chat.Controllers
         }
 
         [HttpGet("Chat/GetConversation")]
-        public async Task<IActionResult> GetConversation([FromQuery]int targetUserId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetConversation([FromQuery] int targetUserId, CancellationToken cancellationToken = default)
         {
             var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-            var messages = await _messageRepository.GetMessagesForConversation(currentUserId,targetUserId,cancellationToken);
-            
-            await _messageRepository.MarkMessagesAsReadAsync(currentUserId,targetUserId,cancellationToken);
+            var messages = await _messageRepository.GetMessagesForConversation(currentUserId, targetUserId, cancellationToken);
+
+            await _messageRepository.MarkMessagesAsReadAsync(currentUserId, targetUserId, cancellationToken);
             await _unitOfWork.SaveChangesAsync();
 
             return Json(messages);

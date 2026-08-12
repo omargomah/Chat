@@ -1,5 +1,8 @@
+using Domain.Interfaces;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MVC.Chat.Configurations;
 using MVC.Chat.Data;
 using MVC.Chat.Entities;
 using MVC.Chat.Hubs;
@@ -22,6 +25,18 @@ namespace MVC.Chat
             builder.Services.AddScoped<IUserConnectionRepository, UserConnectionRepository>();
             builder.Services.AddScoped<IMessageRepository, MessageRepository>();
             builder.Services.AddScoped<IUnitOfWork, UniteOfWork>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+            builder.Services.AddScoped<IImageService, ImageService>();
+
+
+
+
+            // Configrations
+            builder.Services.Configure<EmailConfigurations>(builder.Configuration.GetSection("EmailConfigurations"));
+            builder.Services.Configure<CloudinaryConfigurations>(builder.Configuration.GetSection("CloudinaryConfigurations"));
+            builder.Services.Configure<ImageValidationConfigurations>(builder.Configuration.GetSection("ImageValidationConfigurations"));
+
             // DataBase
             builder.Services.AddDbContext<ApplicationDbContext>(config => 
             {

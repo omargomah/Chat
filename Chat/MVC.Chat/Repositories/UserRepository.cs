@@ -15,6 +15,11 @@ namespace MVC.Chat.Repositories
         private readonly IUserConnectionRepository _userConnectionRepository = userConnectionRepository;
         private readonly IMessageRepository _messageRepository = messageRepository;
 
+        public async Task<User?> GetByIdAsync(int userId, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.FindAsync(userId,cancellationToken);
+        }
+
         public async Task<List<ChatSidebarUserViewModel>> GetUsersForSideBarAsync(int currentUserId, CancellationToken cancellationToken = default)
         {
             var result = await _dbSet.Where(u => u.Id != currentUserId)
@@ -31,6 +36,7 @@ namespace MVC.Chat.Repositories
                         .Select(x => new ChatSidebarUserViewModel
                         {
                             UserId = x.User.Id,
+                            PictureUrl = x.User.Picture == null ? string.Empty:x.User.Picture.Url,
                             FullName = x.User.FullName,
                             IsOnline = false,
                             LastMessage = x.LastMsg != null ? x.LastMsg.Content : string.Empty,
