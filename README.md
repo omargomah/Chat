@@ -1,4 +1,3 @@
-```markdown
 <div align="center">
 
 # Real-Time MVC Chat Application
