@@ -103,6 +103,13 @@
         justify-content: center;
         color: #00f2fe;
         font-size: 16px;
+        overflow: hidden;
+    }
+
+    .avatar-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .online-badge {
@@ -192,6 +199,11 @@
         gap: 10px;
         min-width: 0;
         flex: 1;
+        transition: opacity 0.2s ease;
+    }
+
+    .user-profile-info:hover {
+        opacity: 0.8;
     }
 
     .current-user-name {
@@ -281,6 +293,22 @@
 
     .message-row.sent {
         align-self: flex-end;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .message-row.sent:hover {
+        opacity: 0.9;
+    }
+
+    .message-row.sent:hover .message-bubble {
+        box-shadow: 0 4px 16px rgba(0, 242, 254, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .message-row.sent:hover .message-dropdown-btn {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.3);
     }
 
     /* WhatsApp Bubble Layout Styles */
@@ -291,6 +319,7 @@
         word-wrap: break-word;
         display: inline-flex;
         flex-direction: column;
+        transition: all 0.2s ease;
     }
 
     .message-row.received .message-bubble {
@@ -301,6 +330,7 @@
     .message-row.sent .message-bubble {
         background: linear-gradient(135deg, #00f2fe, #4facfe);
         color: #090c15;
+        box-shadow: 0 2px 8px rgba(0, 242, 254, 0.2);
     }
 
     .message-text {
@@ -370,6 +400,212 @@
         font-size: 18px;
         cursor: pointer;
     }
+
+    .context-menu {
+        position: fixed;
+        background: rgba(20, 17, 42, 0.95);
+        border: 1px solid rgba(0, 242, 254, 0.3);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        z-index: 1000;
+        min-width: 120px;
+        overflow: hidden;
+    }
+
+    .context-menu-item {
+        padding: 10px 16px;
+        color: #e2e8f0;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .context-menu-item:hover {
+        background: rgba(0, 242, 254, 0.15);
+        color: #00f2fe;
+    }
+
+    .message-dropdown-btn {
+        background: rgba(0, 0, 0, 0.2);
+        border: none;
+        color: rgba(9, 12, 21, 0.7);
+        font-size: 14px;
+        cursor: pointer;
+        padding: 2px 4px;
+        border-radius: 4px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 24px;
+        height: 20px;
+        opacity: 0.6;
+    }
+
+    .message-row.sent .message-dropdown-btn {
+        color: rgba(9, 12, 21, 0.7);
+    }
+
+    .message-row.sent .message-dropdown-btn:hover {
+        background: rgba(0, 0, 0, 0.4);
+        color: #090c15;
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+    .message-bubble-with-menu {
+        display: flex;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    /* Custom Edit Message Modal */
+    .edit-message-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .edit-message-modal.active {
+        display: flex;
+    }
+
+    .edit-message-modal-content {
+        background: rgba(18, 16, 38, 0.95);
+        border: 1px solid rgba(0, 242, 254, 0.3);
+        border-radius: 20px;
+        padding: 32px;
+        max-width: 450px;
+        width: 90%;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px);
+    }
+
+    .edit-message-modal-header {
+        margin-bottom: 24px;
+    }
+
+    .edit-message-modal-header h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .edit-message-modal-header i {
+        color: #00f2fe;
+        font-size: 20px;
+    }
+
+    .edit-message-modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .edit-message-input {
+        width: 100%;
+        padding: 14px 16px;
+        background: rgba(27, 24, 56, 0.7);
+        border: 1px solid rgba(0, 242, 254, 0.3);
+        border-radius: 12px;
+        color: #ffffff;
+        font-size: 14px;
+        font-family: 'Outfit', sans-serif;
+        transition: all 0.3s ease;
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .edit-message-input:focus {
+        outline: none;
+        border-color: #00f2fe;
+        background: rgba(27, 24, 56, 0.9);
+        box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+    }
+
+    .edit-message-modal-buttons {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+    }
+
+    .modal-btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .modal-btn-submit {
+        background: linear-gradient(135deg, #00f2fe, #4facfe);
+        color: #090c15;
+        min-width: 100px;
+    }
+
+    .modal-btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+    }
+
+    .modal-btn-cancel {
+        background: rgba(255, 255, 255, 0.1);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        min-width: 100px;
+    }
+
+    .modal-btn-cancel:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Chrome, Edge, and Safari Custom Scrollbar */
+    .chat-body::-webkit-scrollbar,
+    .user-list::-webkit-scrollbar {
+        width: 6px;
+        /* Makes the scrollbar sleek and thin */
+    }
+
+    .chat-body::-webkit-scrollbar-track,
+    .user-list::-webkit-scrollbar-track {
+        background: transparent;
+        /* Removes the white/gray track background */
+        margin: 10px 0;
+        /* Keeps the thumb within rounded container corners */
+    }
+
+    .chat-body::-webkit-scrollbar-thumb,
+    .user-list::-webkit-scrollbar-thumb {
+        background: rgba(0, 242, 254, 0.3);
+        /* Custom theme cyan color */
+        border-radius: 10px;
+        /* Smooth rounded scroll thumb */
+    }
+
+    .chat-body::-webkit-scrollbar-thumb:hover,
+    .user-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 242, 254, 0.6);
+        /* Highlights slightly when hovered */
+    }
 </style>
 
 <div class="chat-wrapper">
@@ -388,7 +624,16 @@
 
                     <div class="user-avatar-wrapper">
                         <div class="avatar-circle">
-                            <i class="fa-solid fa-user"></i>
+                            @if (!string.IsNullOrEmpty(user.PictureUrl) && user.PictureUrl != "~/Images/Default-Image.jpg")
+                            {
+                                <img src="@user.PictureUrl" alt="@user.FullName"
+                                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                            }
+                            else
+                            {
+                                <img src="~/Images/Default-Image.jpg" alt="Default Avatar"
+                                     style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                            }
                         </div>
                         @if (user.IsOnline)
                         {
@@ -421,12 +666,23 @@
 
         <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <div class="user-profile-info">
+            <a asp-controller="UserProfile" asp-action="Index" class="user-profile-info"
+               style="text-decoration: none; color: inherit;">
                 <div class="avatar-circle">
-                    <i class="fa-solid fa-user"></i>
+                    @if (!string.IsNullOrEmpty(Model.CurrentUserPictureUrl) && Model.CurrentUserPictureUrl !=
+               "~/Images/Default-Image.jpg")
+                    {
+                        <img src="@Model.CurrentUserPictureUrl" alt="Profile"
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    }
+                    else
+                    {
+                        <img src="~/Images/Default-Image.jpg" alt="Default Avatar"
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    }
                 </div>
                 <span class="current-user-name" title="@Model.CurrentUserName">@Model.CurrentUserName</span>
-            </div>
+            </a>
 
             <form asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="logout-form">
                 @Html.AntiForgeryToken()
@@ -462,6 +718,25 @@
     </div>
 </div>
 <div id="messageContextMenu" class="context-menu" style="display: none;"></div>
+
+<!-- Edit Message Modal -->
+<div id="editMessageModal" class="edit-message-modal">
+    <div class="edit-message-modal-content">
+        <div class="edit-message-modal-header">
+            <h3><i class="fa-solid fa-pen"></i> Edit Message</h3>
+        </div>
+        <form class="edit-message-modal-form" onsubmit="submitEditMessage(event)">
+            <textarea id="editMessageInput" class="edit-message-input" placeholder="Update your message..."
+                      required></textarea>
+            <div class="edit-message-modal-buttons">
+                <button type="button" class="modal-btn modal-btn-cancel"
+                        onclick="closeEditMessageModal()">Cancel</button>
+                <button type="submit" class="modal-btn modal-btn-submit">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script src="~/microsoft/signalr/dist/browser/signalr.js"></script>
 <script>
     const currentUserId = @Model.CurrentUserId;
@@ -695,12 +970,69 @@
     menu.style.display = 'block';
     }
 
+    function showMessageMenuFromButton(event, row) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (row.dataset.isSent !== 'true' || !row.dataset.messageId) return;
+
+    const menu = document.getElementById('messageContextMenu');
+    menu.innerHTML = `
+    <div class="context-menu-item" onclick="startEditMessage(${row.dataset.messageId})">Update</div>
+    <div class="context-menu-item" onclick="deleteMessage(${row.dataset.messageId})">Delete</div>
+    `;
+
+    const button = event.target.closest('.message-dropdown-btn');
+    if (button) {
+    const rect = button.getBoundingClientRect();
+    menu.style.left = `${rect.left}px`;
+    menu.style.top = `${rect.bottom + 4}px`;
+    } else {
+    menu.style.left = `${event.pageX}px`;
+    menu.style.top = `${event.pageY}px`;
+    }
+    menu.style.display = 'block';
+    }
+
+    function handleMessageDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const button = event.target.closest('.message-dropdown-btn');
+    if (!button) return;
+
+    const row = button.closest('.message-row');
+    if (!row || row.dataset.isSent !== 'true' || !row.dataset.messageId) return;
+
+    const menu = document.getElementById('messageContextMenu');
+    menu.innerHTML = `
+    <div class="context-menu-item" onclick="startEditMessage(${row.dataset.messageId})">Update</div>
+    <div class="context-menu-item" onclick="deleteMessage(${row.dataset.messageId})">Delete</div>
+    `;
+
+    const rect = button.getBoundingClientRect();
+    menu.style.left = `${rect.left}px`;
+    menu.style.top = `${rect.bottom + 4}px`;
+    menu.style.display = 'block';
+    }
+
     function hideMessageMenu() {
     const menu = document.getElementById('messageContextMenu');
     if (menu) menu.style.display = 'none';
     }
 
-    document.addEventListener('click', hideMessageMenu);
+    document.addEventListener('click', function (event) {
+    const menu = document.getElementById('messageContextMenu');
+    const modal = document.getElementById('editMessageModal');
+
+    // Close context menu if clicking outside of it and the button
+    if (!event.target.closest('.message-dropdown-btn') && !event.target.closest('.context-menu')) {
+    hideMessageMenu();
+    }
+
+    // Close modal if clicking on the backdrop (outside the modal content)
+    if (event.target === modal) {
+    closeEditMessageModal();
+    }
+    });
 
     function startEditMessage(messageId) {
     hideMessageMenu();
@@ -710,8 +1042,32 @@
     const textEl = row.querySelector('.message-text');
     if (!textEl) return;
 
-    const newContent = prompt('Update message', textEl.textContent);
-    if (newContent === null || newContent.trim() === '') return;
+    // Store the message ID for use in submitEditMessage
+    window.currentEditingMessageId = messageId;
+
+    // Set the input value and show the modal
+    const input = document.getElementById('editMessageInput');
+    input.value = textEl.textContent;
+
+    const modal = document.getElementById('editMessageModal');
+    modal.classList.add('active');
+    input.focus();
+    input.select();
+    }
+
+    function closeEditMessageModal() {
+    const modal = document.getElementById('editMessageModal');
+    modal.classList.remove('active');
+    window.currentEditingMessageId = null;
+    }
+
+    function submitEditMessage(event) {
+    event.preventDefault();
+    const messageId = window.currentEditingMessageId;
+    const input = document.getElementById('editMessageInput');
+    const newContent = input.value.trim();
+
+    if (!messageId || !newContent) return;
 
     const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     updateMessageRow(messageId, newContent, timeNow, true);
@@ -719,6 +1075,8 @@
 
     connection.invoke('UpdateMessage', messageId, newContent)
     .catch(err => console.error(err));
+
+    closeEditMessageModal();
     }
 
     function deleteMessage(messageId) {
@@ -780,13 +1138,21 @@
     statusHtml = `<span class="status-ticks ${tickClass}"><i class="fa-solid fa-check-double"></i></span>`;
     }
 
+    let dropdownHtml = '';
+    if (isSent) {
+    dropdownHtml = `<button type="button" class="message-dropdown-btn" onclick="handleMessageDropdown(event)"><i class="fa-solid fa-chevron-down"></i></button>`;
+    }
+
     row.innerHTML = `
+    <div class="message-bubble-with-menu">
     <div class="message-bubble">
     <span class="message-text">${text}</span>
     <div class="message-meta">
     <span class="message-time">${time}</span>
     ${statusHtml}
     </div>
+    </div>
+    ${dropdownHtml}
     </div>
     `;
 
