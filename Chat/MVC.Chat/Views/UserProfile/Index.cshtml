@@ -1,0 +1,442 @@
+@model UserViewModel
+@{
+    ViewData["Title"] = "User Profile";
+    Layout = null;
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+        background: #090c15;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+    }
+
+    .profile-wrapper {
+        width: 100%;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background: rgba(18, 16, 38, 0.65);
+        backdrop-filter: blur(20px);
+        border-radius: 24px;
+        border: 1px solid rgba(0, 242, 254, 0.3);
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .profile-picture {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: rgba(0, 242, 254, 0.15);
+        border: 2px solid rgba(0, 242, 254, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-picture i {
+        font-size: 48px;
+        color: #00f2fe;
+    }
+
+    .profile-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+        margin: 0;
+    }
+
+    .profile-section {
+        margin-bottom: 30px;
+        background: rgba(30, 27, 60, 0.4);
+        padding: 24px;
+        border-radius: 16px;
+        border: 1px solid rgba(0, 242, 254, 0.1);
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #00f2fe;
+        margin-bottom: 18px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group:last-child {
+        margin-bottom: 0;
+    }
+
+    label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: #e2e8f0;
+        margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="file"],
+    textarea {
+        width: 100%;
+        padding: 10px 14px;
+        background: rgba(27, 24, 56, 0.7);
+        border: 1px solid rgba(0, 242, 254, 0.3);
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="file"]:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #00f2fe;
+        background: rgba(27, 24, 56, 0.9);
+        box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
+    }
+
+    input[type="text"]:disabled,
+    input[type="email"]:disabled,
+    input[type="tel"]:disabled {
+        background: rgba(15, 12, 28, 0.5);
+        color: #94a3b8;
+        cursor: not-allowed;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    input[type="file"] {
+        padding: 8px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    @@media (max-width: 480px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .file-input-label {
+        display: inline-block;
+        padding: 10px 14px;
+        background: linear-gradient(135deg, #00f2fe, #4facfe);
+        color: #090c15;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-bottom: 10px;
+    }
+
+    .file-input-label:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 242, 254, 0.3);
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .file-name {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 6px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #00f2fe, #4facfe);
+        color: #090c15;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    button[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
+    }
+
+    button[type="submit"]:active {
+        transform: translateY(0);
+    }
+
+    .readonly-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+    }
+
+    @@media (max-width: 480px) {
+        .readonly-group {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .alert {
+        padding: 14px 16px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .alert-success {
+        background: rgba(34, 197, 94, 0.15);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #86efac;
+    }
+
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+    }
+
+    .alert i {
+        font-size: 16px;
+        flex-shrink: 0;
+    }
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #00f2fe;
+        text-decoration: none;
+        font-size: 14px;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        gap: 12px;
+    }
+
+    .back-link i {
+        font-size: 16px;
+    }
+
+    .validation-error {
+        color: #fca5a5;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .alert-close-btn {
+        background: none;
+        border: none;
+        color: inherit;
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        transition: transform 0.2s ease;
+        margin-left: auto;
+        flex-shrink: 0;
+    }
+
+    .alert-close-btn:hover {
+        transform: scale(1.2);
+    }
+</style>
+
+<div class="profile-wrapper">
+    <!-- Back Link -->
+    <a asp-controller="Chat" asp-action="Index" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Chat
+    </a>
+
+    <!-- Alerts -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" id="successAlert">
+            <i class="fa-solid fa-check-circle"></i>
+            <span>@TempData["Success"]</span>
+            <button type="button" class="alert-close-btn" onclick="closeAlert('successAlert')">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" id="errorAlert">
+            <i class="fa-solid fa-exclamation-circle"></i>
+            <span>@TempData["Error"]</span>
+            <button type="button" class="alert-close-btn" onclick="closeAlert('errorAlert')">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+    }
+
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-picture">
+            @if (!string.IsNullOrEmpty(Model.PictureUrl) && Model.PictureUrl != "~/Images/Default-Image.jpg")
+            {
+                <img src="@Model.PictureUrl" alt="Profile Picture">
+            }
+            else
+            {
+                <img src="~/Images/Default-Image.jpg" alt="Default Profile Picture">
+            }
+        </div>
+        <p class="profile-name">@Model.FName @Model.LName</p>
+    </div>
+
+    <!-- Read-Only Information Section -->
+    <div class="profile-section">
+        <div class="section-title">
+            <i class="fa-solid fa-info-circle"></i> Account Information
+        </div>
+        <div class="readonly-group">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="@Model.Email" disabled>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" value="@Model.Phone" disabled>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update Name Section -->
+    <div class="profile-section">
+        <div class="section-title">
+            <i class="fa-solid fa-pen"></i> Update Name
+        </div>
+        <form asp-controller="UserProfile" asp-action="UpdateNameData" method="post">
+            @Html.AntiForgeryToken()
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="fname">First Name</label>
+                    <input type="text" id="fname" name="FName" value="@Model.FName" required>
+                    <span asp-validation-for="FName" class="validation-error"></span>
+                </div>
+                <div class="form-group">
+                    <label for="lname">Last Name</label>
+                    <input type="text" id="lname" name="LName" value="@Model.LName" required>
+                    <span asp-validation-for="LName" class="validation-error"></span>
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+                <button type="submit">Update Name</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Update Image Section -->
+    <div class="profile-section">
+        <div class="section-title">
+            <i class="fa-solid fa-image"></i> Update Profile Picture
+        </div>
+        <form asp-controller="UserProfile" asp-action="UpdateImageOfUser" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="image" class="file-input-label">
+                    <i class="fa-solid fa-upload"></i> Choose Image
+                </label>
+                <input type="file" id="image" name="Image" accept="image/*" required onchange="updateFileName(this)">
+                <div class="file-name" id="fileName">No file selected</div>
+            </div>
+            <div class="form-group">
+                <button type="submit">Upload Image</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function updateFileName(input) {
+        const fileNameDisplay = document.getElementById('fileName');
+        if (input.files && input.files[0]) {
+            fileNameDisplay.textContent = input.files[0].name;
+        } else {
+            fileNameDisplay.textContent = 'No file selected';
+        }
+    }
+
+    function closeAlert(alertId) {
+        const alert = document.getElementById(alertId);
+        if (alert) {
+            alert.style.opacity = '0';
+            alert.style.transition = 'opacity 0.3s ease';
+            setTimeout(() => {
+                alert.remove();
+            }, 300);
+        }
+    }
+
+    function initializeAlertDismiss() {
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+
+        const ALERT_TIMEOUT = 10000; // 10 seconds in milliseconds
+
+        if (successAlert) {
+            setTimeout(() => closeAlert('successAlert'), ALERT_TIMEOUT);
+        }
+
+        if (errorAlert) {
+            setTimeout(() => closeAlert('errorAlert'), ALERT_TIMEOUT);
+        }
+    }
+
+    // Initialize alert dismiss on page load
+    document.addEventListener('DOMContentLoaded', initializeAlertDismiss);
+</script>
