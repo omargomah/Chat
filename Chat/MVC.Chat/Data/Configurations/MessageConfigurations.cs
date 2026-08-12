@@ -12,6 +12,8 @@ namespace MVC.Chat.Data.Configurations
            
             builder.HasIndex(m => new { m.SenderId, m.ReceiverId, m.SentAt });
 
+            builder.HasQueryFilter(x => !x.IsDeleted);
+            
             builder.Property(m => m.Content).HasMaxLength(Constants.ContentMaxLength).IsRequired();
             
             builder.Property(u => u.SentAt).HasDefaultValueSql("SYSDATETIME()");
